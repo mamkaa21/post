@@ -42,8 +42,6 @@ namespace post
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "D35de%TJ");
             smtpClient.Send(message);
-
-
         }
 
       
