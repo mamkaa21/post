@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
 
 namespace post
 {
@@ -27,23 +28,18 @@ namespace post
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, EventArgs e)
+        private void Button_Enter(object sender, RoutedEventArgs e)
         {
-            MailAddress fromAdress = new MailAddress("alina1125@suz-ppk.ru", "mmn");
-            MailAddress toAdress = new MailAddress("kim1evda@gmail.com", "mmn");
-            MailMessage message = new MailMessage(fromAdress, toAdress);
-            message.Body = "AAAAAAAAAA";
-            message.Subject = "hjdjvsd";
+            Enter enter = new Enter();
+            enter.Show();
 
-            SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Host = "smtp.beget.com";
-            smtpClient.Port = 25;
-            smtpClient.EnableSsl = false;
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "D35de%TJ");
-            smtpClient.Send(message);
+
         }
 
-      
+        private void Button_Registration(object sender, RoutedEventArgs e)
+        {
+            Enter enter = new Enter();
+            enter.Show();
+        }
     }
 }
