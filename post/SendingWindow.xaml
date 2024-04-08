@@ -32,11 +32,12 @@
         <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Сообщение" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Center"/>
         <Label Grid.Column="3" Grid.Row="1" Content="✍" FontSize="25"  Foreground="SteelBlue" HorizontalAlignment="Right"   Background="White"/>
         <Label Grid.Column="2" Grid.Row="2" Content="Кому:"/>
-        <TextBox Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Margin="50 0 0 20"/>
+        <TextBox Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Margin="50 0 0 20" Text="{Binding Adress}"/>
         <Label Grid.Column="2" Grid.Row="3" Content="От кого:"/>
         <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Content="alina1125@suz-ppk.ru" Margin="50 0 0 20"/>
-        <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="3" Text="{Binding Adress}"/>
-
+        <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Margin="50 0 0 20" Text="{Binding ssubject}"/>
+        <Label Grid.Column="2" Grid.Row="4" Content="Тема:"/>
+        <TextBox Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="3" Text="{Binding bbody}"/>
         <Button  Grid.Column="3" Grid.Row="8" Content="Отправить" Click="Button_Sending" FontSize="20" Foreground="Beige" Background="SteelBlue"/>
         
     </Grid>

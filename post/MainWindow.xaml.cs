@@ -32,14 +32,14 @@ namespace post
         {
             Enter enter = new Enter();
             enter.Show();
-
-
+            this.Close();
         }
 
         private void Button_Registration(object sender, RoutedEventArgs e)
         {
-            Enter enter = new Enter();
-            enter.Show();
+           Registration registration = new Registration();
+            registration.Show();
+            this.Close();
         }
     }
 }

@@ -15,20 +15,18 @@ using System.Windows.Shapes;
 namespace post
 {
     /// <summary>
-    /// Логика взаимодействия для Enter.xaml
+    /// Логика взаимодействия для Registration.xaml
     /// </summary>
-    public partial class Enter : Window
+    public partial class Registration : Window
     {
-        public Enter()
+        public Registration()
         {
             InitializeComponent();
         }
 
-        private void Button_Click2(object sender, RoutedEventArgs e)
+        private void Button_Click3(object sender, RoutedEventArgs e)
         {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.Show();
-            this.Close();
+           
 
         }
     }

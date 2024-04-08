@@ -24,14 +24,15 @@ namespace post
         public SendingWindow()
         {
             InitializeComponent();
+            DataContext = this;
         }
         private void Button_Sending(object sender, EventArgs e)
-        {
+        {            
             MailAddress fromAdress = new MailAddress("alina1125@suz-ppk.ru", "mmn");
             MailAddress toAdress = new MailAddress(Adress);
             MailMessage message = new MailMessage(fromAdress, toAdress);
-            message.Body = "Вы отчислены";
-            message.Subject = "Вам бан";
+            message.Body = bbody;
+            message.Subject = ssubject;
 
             SmtpClient smtpClient = new SmtpClient();
             smtpClient.Host = "smtp.beget.com";
@@ -40,10 +41,13 @@ namespace post
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "D35de%TJ");
             smtpClient.Send(message);
+
+            this.Close();
         }
 
        
-            public string Adress { get; set; }
-        
+        public string Adress { get; set; }
+        public string bbody { get; set; }
+        public string ssubject { get; set; }
     }
 }

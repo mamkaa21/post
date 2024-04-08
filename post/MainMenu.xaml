@@ -44,6 +44,7 @@
      </ListView.View>
  </ListView>
         <Button Grid.Column="3" Grid.Row="1" Content="↺" FontSize="26" Margin="30 5 30 0" Foreground="SteelBlue"   VerticalAlignment="Top" Background="White" Click="Button_Upgrate"/>
-        <Button  Grid.Column="3" Grid.Row="8" Content="✍" Click="Button_Send_Window" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
+        <Button  Grid.Column="4" Grid.Row="8" Content="✍" Click="Button_Send_Window" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
+        <Button  Grid.Column="2" Grid.Row="8" Content="🗑️" Click="Button_Delete" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
     </Grid>
 </Window>

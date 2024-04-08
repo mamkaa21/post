@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -21,7 +22,7 @@ namespace post
     /// <summary>
     /// Логика взаимодействия для MainMenu.xaml
     /// </summary>
-    public partial class MainMenu : Window
+    public partial class MainMenu : Window, INotifyPropertyChanged
     {
         public MainMenu()
         {
@@ -33,23 +34,6 @@ namespace post
             SendingWindow sendingWindow = new SendingWindow();
             sendingWindow.Show();
         }
-
-        //    private void Button_Sending(object sender, EventArgs e)
-        //{
-        //    MailAddress fromAdress = new MailAddress("alina1125@suz-ppk.ru", "mmn");
-        //    MailAddress toAdress = new MailAddress("kim1evda@gmail.com", "mmn");
-        //    MailMessage message = new MailMessage(fromAdress, toAdress);
-        //    message.Body = "Вы отчислены";
-        //    message.Subject = "Вам бан";
-
-        //    SmtpClient smtpClient = new SmtpClient();
-        //    smtpClient.Host = "smtp.beget.com";
-        //    smtpClient.Port = 25;
-        //    smtpClient.EnableSsl = false;
-        //    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-        //    smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "D35de%TJ");
-        //    smtpClient.Send(message);
-        //}
 
         private void Button_Upgrate(object sender, RoutedEventArgs e)
         {
@@ -105,6 +89,29 @@ namespace post
             }
 
             test.ItemsSource = emails;
+        }
+
+        private POPEmail POPEmail;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public List<POPEmail> email { get; set; }
+        public POPEmail pOPEmail
+        {
+            get => POPEmail;
+            set
+            {
+                POPEmail = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(pOPEmail)));
+            }
+        }
+        
+        private void Button_Delete(object sender, RoutedEventArgs e)
+        {
+            if (pOPEmail != null)
+                MessageBox.Show("Выбран обьект");
+            email.Remove(pOPEmail);
+            PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(pOPEmail)));
+
 
         }
 
