@@ -26,14 +26,13 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            
         </Grid.RowDefinitions>
 
         <Label Grid.ColumnSpan="7" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
                FontSize="35" Foreground="Beige"/>
         <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Входящие" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Center"/>
-        
-        <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" >
+
+        <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Email}" SelectedItem="{Binding POPEmail}">
      <ListView.View>
          <GridView>
              <GridViewColumn DisplayMemberBinding="{Binding From}"/>
