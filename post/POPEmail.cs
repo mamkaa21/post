@@ -14,7 +14,6 @@ namespace post
         {
             this.Attachments = new List<Attachments>();
         }
-
         public int MessageNumber { get; set; }
 
         public string From { get; set; }
@@ -33,12 +32,14 @@ namespace post
 
         public string ssubject { get; set; }
     }
-    [Serializable]
 
+    [Serializable]
     public class Attachments
     {
         public string FileName { get; set; }
+
         public string ContentType { get; set; }
+
         public byte[] Content { get; set; }
     }
 

@@ -19,6 +19,8 @@ using System.Windows.Shapes;
 using OpenPop.Mime;
 using OpenPop.Pop3;
 using System.Windows.Threading;
+using System.Web;
+using System.Text.RegularExpressions;
 
 namespace post
 {
@@ -31,34 +33,57 @@ namespace post
         public MainMenu()
         {
             InitializeComponent();
-            pop3Client = ConnectMail();
+
             DataContext = this;
+            timerStart();
         }
 
-        //timer = new DispatcherTimer();
-        //timer.Tick += new EventHandler(timer_Tick);
-        //timer.Interval = new TimeSpan(0,0,1);
-        //timer.Start();
-
+        private DispatcherTimer timer = null;
+        private void timerStart()
+        {
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = new TimeSpan(0, 0, 5);
+            timer.Start();
+        }
+        private void timerTick(object sender, EventArgs e)
+        {
+            Thread thread = new Thread(GetMail);
+            thread.Start();
+        }
         private void Button_Send_Window(object sender, EventArgs e)
         {
             SendingWindow sendingWindow = new SendingWindow();
             sendingWindow.Show();
         }
-
-        private void Button_Upgrate(object sender, RoutedEventArgs e)
+        bool first = true;
+        int lastCount = 0;
+        void GetMail(object p)
         {
-            if (pop3Client.Connected)
-                pop3Client.Disconnect();
             pop3Client = ConnectMail();
-            int count = pop3Client.GetMessageCount();
-            var emails = new ObservableCollection<POPEmail>();
+            int count = 0;
+            try
+            {
+                count = pop3Client.GetMessageCount();
+            }
+            catch { return; }
+
+            var lastCountFor = lastCount;
+            lastCount = count;
 
             int counter = 0;
-            for (int i = count; i >= 1; i--)
+            Message message;
+            for (int i = count; i > lastCountFor; i--)
             {
-                Message message = pop3Client.GetMessage(i);
-
+                try
+                {
+                    message = pop3Client.GetMessage(i);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                    continue;
+                }
                 POPEmail email = new POPEmail()
                 {
                     MessageNumber = i,
@@ -70,7 +95,7 @@ namespace post
                 MessagePart body = message.FindFirstHtmlVersion();
                 if (body != null)
                 {
-                    email.Body = body.GetBodyAsText();
+                    email.Body = HttpUtility.HtmlDecode(Regex.Replace(body.GetBodyAsText(), "<(.|\n)*?>", ""));
                 }
                 else
                 {
@@ -91,16 +116,29 @@ namespace post
                         Content = part.Body
                     });
                 }
-                emails.Add(email);
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (first)
+                        Email.Add(email);
+                    else
+                        Email.Insert(0, email);
+                });
                 counter++;
             }
+            first = false;
 
-            Email = emails;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));
+            try
+            {
+                pop3Client.Disconnect();
+            }
+            catch { }
         }
 
-       
-
+        private void Button_Upgrate(object sender, RoutedEventArgs e)
+        {
+            Thread thread = new Thread(GetMail);
+            thread.Start();
+        }
 
         private static Pop3Client ConnectMail()
         {
@@ -115,8 +153,8 @@ namespace post
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        public ObservableCollection<POPEmail> Email { get; set; }
-        
+        public ObservableCollection<POPEmail> Email { get; set; } = new();
+
         private POPEmail email;
         public POPEmail POPEmail
         {
@@ -127,17 +165,43 @@ namespace post
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(POPEmail)));
             }
         }
-        
+
         private void Button_Delete(object sender, RoutedEventArgs e)
         {
-            if (POPEmail != null)
-                MessageBox.Show("Выбран обьект");
-            pop3Client.DeleteMessage(POPEmail.MessageNumber);
-            Email.Remove(POPEmail);
+            if (POPEmail == null)
+            {
+                MessageBox.Show("Не выбран обьект");
+                return;
+            }
+            try
+            {
+                pop3Client = ConnectMail();
+                pop3Client.DeleteMessage(POPEmail.MessageNumber);
+                pop3Client.Disconnect();
+                var index = POPEmail.MessageNumber;
+                Email.Remove(POPEmail);
 
-
-
+                var sort = Email.ToArray();
+                Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
+                for (int i = 0; i < sort.Length; i++)
+                    sort[i].MessageNumber = i + 1;
+            }
+            catch { }
         }
 
+        private void OnClose(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                pop3Client.Disconnect();
+            }
+            catch { }
+        }
+
+
+        private void But_Search(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

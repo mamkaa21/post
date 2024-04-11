@@ -24,8 +24,6 @@
         <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Войдите или зарегистрируйтесь" FontSize="30" HorizontalAlignment="Center"/>
         <Button Grid.Column="3" Grid.Row="3" Content="Вход" Click="Button_Enter" FontSize="27"/>
         <Button Grid.Column="1" Grid.Row="3" Content="Регистрация" Click="Button_Registration" FontSize="26"/>
-       
-       
     </Grid>
     
 </Window>
