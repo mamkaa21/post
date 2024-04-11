@@ -58,14 +58,14 @@ namespace post
         }
         bool first = true;
         int lastCount = 0;
-        void GetMail(object p)
-        {
-            pop3Client = ConnectMail();
-            int count = 0;
-            try
-            {
+          void GetMail(object p)
+          {
+             pop3Client = ConnectMail();
+             int count = 0;
+             try
+             {
                 count = pop3Client.GetMessageCount();
-            }
+             }
             catch { return; }
 
             var lastCountFor = lastCount;
@@ -132,7 +132,7 @@ namespace post
                 pop3Client.Disconnect();
             }
             catch { }
-        }
+          }
 
         private void Button_Upgrate(object sender, RoutedEventArgs e)
         {
@@ -176,15 +176,18 @@ namespace post
             try
             {
                 pop3Client = ConnectMail();
-                pop3Client.DeleteMessage(POPEmail.MessageNumber);
-                pop3Client.Disconnect();
-                var index = POPEmail.MessageNumber;
+                //pop3Client.DeleteMessage(POPEmail.MessageNumber);
+                //pop3Client.Disconnect();
+                //var index = POPEmail.MessageNumber;
                 Email.Remove(POPEmail);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));
+                DeleteMenu deleteMenu = new DeleteMenu();
+                deleteMenu.Show();
 
-                var sort = Email.ToArray();
-                Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
-                for (int i = 0; i < sort.Length; i++)
-                    sort[i].MessageNumber = i + 1;
+                //var sort = Email.ToArray();
+                //Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
+                //for (int i = 0; i < sort.Length; i++)
+                //    sort[i].MessageNumber = i + 1;
             }
             catch { }
         }
@@ -196,6 +199,33 @@ namespace post
                 pop3Client.Disconnect();
             }
             catch { }
+        }
+
+        private void But_DelDel(object sender, RoutedEventArgs e)
+        {
+            DeleteMenu deleteMenu = new DeleteMenu();
+            deleteMenu.Show();
+
+            //if (POPEmail == null)
+            //{
+            //    MessageBox.Show("Не выбран обьект");
+            //    return;
+            //}
+            //try
+            //{
+            //    pop3Client = ConnectMail();
+            //    pop3Client.DeleteMessage(POPEmail.MessageNumber);
+            //    pop3Client.Disconnect();
+            //    var index = POPEmail.MessageNumber;
+            //    Email.Remove(POPEmail);
+
+            //    var sort = Email.ToArray();
+            //    Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
+            //    for (int i = 0; i < sort.Length; i++)
+            //        sort[i].MessageNumber = i + 1;
+            //}
+            //catch { }
+
         }
 
 

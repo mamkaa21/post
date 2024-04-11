@@ -40,49 +40,42 @@ namespace post
             MailMessage message = new MailMessage(fromAdress, toAdress);
             message.Body = bbody;
             message.Subject = ssubject;
-            message.Image = iimage;
-
+            message.Attachments.Add(new Attachment(selectedImagePath));
             SmtpClient smtpClient = new SmtpClient();
             smtpClient.Host = "smtp.beget.com";
             smtpClient.Port = 25;
             smtpClient.EnableSsl = false;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.Credentials = new NetworkCredential(fromAdress.Address, "D35de%TJ");
-
-
-//            Directory.GetFiles(Image, "*.txt").ToList().ForEach(
-//    name => message.Attachments.Add(new Attachment(name, MediaTypeNames.Text.Plain))
-//);
-            //message.Attachments.Add(new Attachment("C://IMG_20231112_171210_408.jpg"));
             smtpClient.Send(message); 
             this.Close();
         }
         public string Adress { get; set; }
         public string bbody { get; set; }
         public string ssubject { get; set; }
-        public byte[] iimage { get; set; }
-      
+        string selectedImagePath="";
 
+        private void SelectImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
 
-        //private void SelectImageButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    OpenFileDialog openFileDialog = new OpenFileDialog();
-        //    openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                selectedImagePath = openFileDialog.FileName;
+                if (selectedImagePath.EndsWith(".png") || selectedImagePath.EndsWith(".jpg"))
+                {
+                    byte[] imageData = File.ReadAllBytes(selectedImagePath);
 
-        //    if (openFileDialog.ShowDialog() == true)
-        //    {
-        //        string selectedImagePath = openFileDialog.FileName;
-        //        byte[] imageData = File.ReadAllBytes(selectedImagePath);
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = new MemoryStream(imageData);
+                    bitmapImage.EndInit();
 
-        //        BitmapImage bitmapImage = new BitmapImage();
-        //        bitmapImage.BeginInit();
-        //        bitmapImage.StreamSource = new MemoryStream(imageData);
-        //        bitmapImage.EndInit();
+                    SelectedImage.Source = bitmapImage;
+                }
+            }
+        }
 
-        //        SelectedImage.Source = bitmapImage;
-        //    }
-        //}
-
-      
     }
 }

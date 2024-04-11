@@ -24,15 +24,7 @@ namespace post
 
         public DateTime DateSent { get; set; }
 
-        //public byte[] Image { get; set; }
-
         public List<Attachments> Attachments { get; set; }
-
-        //public string Adress { get; set; }
-
-        //public string bbody { get; set; }
-
-        //public string ssubject { get; set; }
     }
 
     [Serializable]
@@ -44,7 +36,4 @@ namespace post
 
         public byte[] Content { get; set; }
     }
-
-
-
 }

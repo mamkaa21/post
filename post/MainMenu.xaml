@@ -29,8 +29,8 @@
         </Grid.RowDefinitions>
         <Label Grid.ColumnSpan="9" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
                FontSize="35" Foreground="Beige"/>
-        <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Входящие" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
-        <Button Grid.Column="3" Grid.Row="1" Content="↺" FontSize="20" Margin="30 10 50 5" Foreground="SteelBlue" Background="White" Click="Button_Upgrate"/>
+        <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Content="Входящие  ✉" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
+        <Button Grid.Column="5" Grid.Row="1" Content="↺" FontSize="20" Margin="-50 10 130 5" Foreground="SteelBlue" Background="White" Click="Button_Upgrate"/>
         <Button Grid.Column="4" Grid.Row="1" Margin="0 10 80 5" Background="White" Content="🔍" Foreground="SteelBlue"  Click="But_Search" />
         <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Email}" SelectedItem="{Binding POPEmail}">
             <ListView.View>
@@ -42,13 +42,17 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TabControl Grid.Row="2">
-            <TabItem Header="📂">
-                <StackPanel>
-                    <Button Content="Удаленные"/>
-                </StackPanel>
+        <Button Grid.Row="2" Content="📂" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"  />
+        <Button Grid.Row="3" Content="📝" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" />
+        <Button Grid.Row="4" Content="⛔" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" />
+        <Button Grid.Row="5" Content="🗑️" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Click="But_DelDel"/>
+        
+        <!--<TabControl Grid.Row="3">
+            <TabItem Header="📂" Foreground ="SteelBlue">
+                --><!--<Button Content="Удаленные"/>
+                <Button Content="ferr"/>--><!--
             </TabItem>
-        </TabControl>
+        </TabControl>-->
         
 
         <Button  Grid.Column="4" Grid.Row="8" Content="✍" Click="Button_Send_Window" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
