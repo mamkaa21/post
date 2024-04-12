@@ -12,7 +12,7 @@ namespace post
     {
         public POPEmail()
         {
-            this.Attachments = new List<Attachments>();
+            Attachments = new List<Attachments>();
         }
         public int MessageNumber { get; set; }
 

@@ -56,8 +56,10 @@ namespace post
             SendingWindow sendingWindow = new SendingWindow();
             sendingWindow.Show();
         }
+
         bool first = true;
         int lastCount = 0;
+
           void GetMail(object p)
           {
              pop3Client = ConnectMail();
@@ -183,7 +185,7 @@ namespace post
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));
                 DeleteMenu deleteMenu = new DeleteMenu();
                 deleteMenu.Show();
-
+                this.Close();
                 //var sort = Email.ToArray();
                 //Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
                 //for (int i = 0; i < sort.Length; i++)
@@ -205,7 +207,7 @@ namespace post
         {
             DeleteMenu deleteMenu = new DeleteMenu();
             deleteMenu.Show();
-
+            this.Close();
             //if (POPEmail == null)
             //{
             //    MessageBox.Show("Не выбран обьект");
@@ -218,20 +220,20 @@ namespace post
             //    pop3Client.Disconnect();
             //    var index = POPEmail.MessageNumber;
             //    Email.Remove(POPEmail);
-
             //    var sort = Email.ToArray();
             //    Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
             //    for (int i = 0; i < sort.Length; i++)
             //        sort[i].MessageNumber = i + 1;
             //}
             //catch { }
-
         }
+        private void But_Search(object sender, RoutedEventArgs e)    {   }
 
-
-        private void But_Search(object sender, RoutedEventArgs e)
+        private void But_SendPost(object sender, RoutedEventArgs e)
         {
-
+            WindowSendPost windowSendPost = new WindowSendPost();
+            windowSendPost.Show();
+            this.Close();
         }
     }
 }

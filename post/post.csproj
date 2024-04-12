@@ -11,4 +11,9 @@
     <PackageReference Include="OpenPop.Core" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="view\" />
+  </ItemGroup>
+
 </Project>

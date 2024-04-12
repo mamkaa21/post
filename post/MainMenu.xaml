@@ -42,7 +42,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Grid.Row="2" Content="📂" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White"  />
+        <Button Grid.Row="2" Content="📂" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Click="But_SendPost" />
         <Button Grid.Row="3" Content="📝" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" />
         <Button Grid.Row="4" Content="⛔" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" />
         <Button Grid.Row="5" Content="🗑️" FontSize="25" Foreground ="SteelBlue" HorizontalAlignment="Center" Background="White" Click="But_DelDel"/>
