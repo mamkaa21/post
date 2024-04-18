@@ -124,7 +124,7 @@ namespace post
                 {
                     email.Attachments.Add(new Attachments
                     {
-                        FileName = part.FileName,
+                        Title = part.FileName,
                         ContentType = part.ContentType.MediaType,
                         Content = part.Body
                     });

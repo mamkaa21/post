@@ -36,8 +36,8 @@
 
 
         <Button Grid.Row="2" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Click="But_Back"/>
-        <Button  Grid.Column="3" Grid.Row="8" Content="OK" Click="ButOk" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
-        <Button  Grid.Column="2" Grid.Row="8" Content="+" Click="ButImage" Margin="5 5 5 0" FontSize="35" Foreground="Beige" Background="SteelBlue"/>
+        <!--<Button  Grid.Column="3" Grid.Row="8" Content="OK" Click="ButOk" Margin="5 5 5 0" FontSize="30" Foreground="Beige" Background="SteelBlue"/>
+        <Button  Grid.Column="2" Grid.Row="8" Content="+" Click="ButImage" Margin="5 5 5 0" FontSize="35" Foreground="Beige" Background="SteelBlue"/>-->
 
 
     </Grid>

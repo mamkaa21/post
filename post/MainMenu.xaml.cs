@@ -33,17 +33,17 @@ namespace post
         public MainMenu()
         {
             InitializeComponent();
-            GetAllPOPEmail();
+            //GetAllPOPEmail();
             DataContext = this;
             timerStart();
         }
 
-        private void GetAllPOPEmail()
-        {
-            string sql = "SELECT p.id, p.id_AdressFrom, p.id_AdressTo, p.Subject, p.Body, p.DateSent";
-            var email = PostRepository.Instance.GetAllPOPEmails(sql);
+        //private void GetAllPOPEmail()
+        //{
+        //    string sql = "SELECT p.id, p.id_AdressFrom, p.id_AdressTo, p.Subject, p.Body, p.DateSent, ";
+        //    var email = PostRepository.Instance.GetAllPOPEmails(sql);
 
-        }
+        //}
 
         private DispatcherTimer timer = null;
         private void timerStart()

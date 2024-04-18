@@ -25,37 +25,42 @@ namespace post
             }
         }
 
-        internal IEnumerable<POPEmail> GetAllPOPEmails(string sql)
+        internal /*IEnumerable*/ObservableCollection<POPEmail> GetAllPOPEmails()
         {
-            var result = new ObservableCollection<POPEmail>();
+            ObservableCollection<POPEmail> result = new ObservableCollection<POPEmail>();
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) 
             return result;
+            string sql = "SELECT * FROM Email";
             using (var mc = new MySqlCommand(sql,connect))
             using (var reader = mc.ExecuteReader()) 
             {
-                POPEmail pOPEmail = new POPEmail();
-                int id;
-                while (reader.Read()) 
+                //POPEmail pOPEmail = new POPEmail();
+                //int id;
+                while (reader.Read())
                 {
-                    id = reader.GetInt32("id");
-                    if (pOPEmail.ID != id)
+                    var pOPEmail = new POPEmail
                     {
                         pOPEmail = new POPEmail();
-                        pOPEmail.ID = id;
-                        pOPEmail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
-                        pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
-                        pOPEmail.Subject = reader.GetString("Subject");
-                        pOPEmail.Body = reader.GetString("Body");
-                        pOPEmail.DateSent = reader.GetDateTime("DateSent");
-                    }
-                    AdressBook adressBook = new AdressBook
-                    {
-                        ID = reader.GetInt32("adressbookId"),
-                        Email = reader.GetString("adressbookEmail"),
-                        Title = reader.GetString("Title"),
-                    };
-                    pOPEmail.AdressBooks.Add(adressBook);
+                    pOPEmail.ID = id;
+                    pOPEmail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
+                    pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
+                    pOPEmail.Subject = reader.GetString("Subject");
+                    pOPEmail.Body = reader.GetString("Body");
+                    pOPEmail.DateSent = reader.GetDateTime("DateSent"); }
+                
+                }
+                    //id = reader.GetInt32("id");
+                    //if (pOPEmail.ID != id)
+                   
+                     
+                    //AdressBook adressBook = new AdressBook
+                    //{
+                    //    ID = reader.GetInt32("adressbookId"),
+                    //    Email = reader.GetString("adressbookEmail"),
+                    //    Title = reader.GetString("Title"),
+                    //};
+                    //pOPEmail.AdressBooks.Add(adressBook);
                 }             
             }
             return result;
