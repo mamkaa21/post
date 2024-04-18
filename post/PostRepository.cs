@@ -76,7 +76,7 @@ namespace post
                 //{
                 //    sql = "";
                 //    foreach (var adressbook in pOPEmail.AdressBooks)
-                //        sql += "INSERT INTO "
+                //        sql "
                 //}
             }
         }
