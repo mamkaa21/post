@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -13,7 +14,14 @@ namespace post
         public POPEmail()
         {
             Attachments = new List<Attachments>();
+            AdressBooks = new ObservableCollection<AdressBook>();
         }
+        public int ID { get; set; }
+
+        public int ID_AdressFrom { get; set; }
+
+        public int ID_AdressTo { get; set; }
+
         public int MessageNumber { get; set; }
 
         public string From { get; set; }
@@ -25,15 +33,21 @@ namespace post
         public DateTime DateSent { get; set; }
 
         public List<Attachments> Attachments { get; set; }
+
+        public ObservableCollection<AdressBook> AdressBooks { get; set; }
     }
 
     [Serializable]
     public class Attachments
     {
-        public string FileName { get; set; }
-
-        public string ContentType { get; set; }
+        public int ID { get; set; }
 
         public byte[] Content { get; set; }
+
+        public string Title { get; set; }
+
+        public string ContentType { get; set; }
     }
 }
+    
+

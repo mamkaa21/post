@@ -113,7 +113,7 @@ namespace post
                 {
                     email.Attachments.Add(new Attachments
                     {
-                        FileName = part.FileName,
+                        Title = part.FileName,
                         ContentType = part.ContentType.MediaType,
                         Content = part.Body
                     });
@@ -234,6 +234,12 @@ namespace post
             WindowSendPost windowSendPost = new WindowSendPost();
             windowSendPost.Show();
             this.Close();
+        }
+
+        private void But_WinUser(object sender, RoutedEventArgs e)
+        {
+            WindowUser windowUser = new WindowUser();
+            windowUser.Show();
         }
     }
 }
