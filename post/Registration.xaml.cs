@@ -19,14 +19,18 @@ namespace post
     /// </summary>
     public partial class Registration : Window
     {
+        public string Login { get; set; }
         public Registration()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void Button_Click3(object sender, RoutedEventArgs e)
         {
-          
+          MainMenu mainMenu = new MainMenu();
+            mainMenu.Show();
+            this.Close();
         }
     }
 }

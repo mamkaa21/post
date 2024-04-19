@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:post"
         mc:Ignorable="d"
-        Title="Registration" Height="450" Width="800">
+        Title="Registration" Height="450" Width="800" Background="CornflowerBlue">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,13 +20,16 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Grid.ColumnSpan="5" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
           FontSize="35" Foreground="Beige"/>
-        <Label Grid.Column="1" Grid.Row="1" Content="Login" FontSize="20"/>
-        <TextBox  Grid.Column="2" Grid.Row="1"/>
-        <Label Grid.Column="1" Grid.Row="2" Content="Password" FontSize="20"/>
-        <TextBox  Grid.Column="2" Grid.Row="2"/>
-        <Button Grid.Column="2" Grid.Row="3" Content="OK" FontSize="30" Click="Button_Click3"/>
+        <Label Grid.Column="1" Grid.Row="1" Content="Login"  FontSize="35" Foreground="Beige" HorizontalAlignment="Center"/>
+        <TextBox  Grid.Column="2" Grid.Row="1" Text="{Binding Login}" Margin="0 10 0 30" />
+        <Label Grid.Column="1" Grid.Row="2" Content="Password"  FontSize="35" Foreground="Beige" HorizontalAlignment="Center"/>
+        <TextBox  Grid.Column="2" Grid.Row="2" Margin="0 10 0 30"/>
+        <Label Grid.Row="3" Grid.Column="1" Content="Again"  FontSize="35" Foreground="Beige" HorizontalAlignment="Center"/>
+        <PasswordBox Grid.Column="2" Grid.Row="3" x:Name="{}" Margin="0 10 0 30"/>
+        <Button Grid.Column="2" Grid.Row="4" Content="OK🐾" Background="CornflowerBlue" Click="Button_Click3" FontSize="35" Foreground="Beige" Margin="35 0 30 15"/>
     </Grid>
 </Window>
