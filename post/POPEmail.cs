@@ -35,6 +35,8 @@ namespace post
         public List<Attachments> Attachments { get; set; }
 
         public ObservableCollection<AdressBook> AdressBooks { get; set; }
+        public string EmailFrom { get; internal set; }
+        public string TitleFrom { get; internal set; }
     }
 
     [Serializable]

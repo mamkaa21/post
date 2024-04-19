@@ -33,28 +33,25 @@ namespace post
         public MainMenu()
         {
             InitializeComponent();
-            //GetAllPOPEmail();
+            var user = ActiveUser.Instance.GetUser();
+            GetAllPOPEmail();
             DataContext = this;
             timerStart();
         }
 
-        //private void GetAllPOPEmail()
-        //{
-        //    string sql = "SELECT p.id, p.id_AdressFrom, p.id_AdressTo, p.Subject, p.Body, p.DateSent, ";
-        //    var email = PostRepository.Instance.GetAllPOPEmails(sql);
-
-        //}
+        private void GetAllPOPEmail()
+        {
+            var email = PostRepository.Instance.GetAllPOPEmails();
+        }
 
         private DispatcherTimer timer = null;
         private void timerStart()
         {
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timerTick);
-            timer.Interval = new TimeSpan(0, 0, 5);
+            timer.Interval = new TimeSpan(0, 0, 2);
             timer.Start();
         }
-
-
 
         private void timerTick(object sender, EventArgs e)
         {
@@ -69,8 +66,6 @@ namespace post
 
         bool first = true;
         int lastCount = 0;
-
-
 
           void GetMail(object p)
           {
@@ -252,6 +247,7 @@ namespace post
         {
             WindowUser windowUser = new WindowUser();
             windowUser.Show();
+            this.Close();
         }
     }
 }

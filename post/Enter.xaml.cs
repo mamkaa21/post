@@ -19,17 +19,25 @@ namespace post
     /// </summary>
     public partial class Enter : Window
     {
+        public  string Login {  get; set; }
+
         public Enter()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.Show();
-            this.Close();
-
+            var user = PostRepository.Instance.GetUserByLoginPassword(Login, passwordBox.Password);
+            if (user.ID != 0)
+            {
+                ActiveUser.Instance.SetUser(user);
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.Show();
+                this.Close();
+            }
+            else MessageBox.Show("Введите логин и пароль");
         }
     }
 }

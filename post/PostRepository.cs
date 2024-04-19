@@ -25,43 +25,56 @@ namespace post
             }
         }
 
-        internal /*IEnumerable*/ObservableCollection<POPEmail> GetAllPOPEmails()
+        internal User GetUserByLoginPassword(string login, string password)
+        {
+            User result = new User();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null)
+                return result;
+            string sql = "SELECT u.ID, u.NickName, u.Login, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login= @login AND u.Password = @password AND ab.ID_User = u.ID";
+            using (var mc = new MySqlCommand(sql, connect))
+            {
+                mc.Parameters.Add(new MySqlParameter("login", login));
+                mc.Parameters.Add(new MySqlParameter("password", password));
+                using (var reader = mc.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        result.ID = reader.GetInt32("id");
+                        result.NickName = reader.GetString("NickName");
+                        result.Email = reader.GetString("Email");
+                        result.EmailTitle = reader.GetString("Title");
+                        result.Login = reader.GetString("Login");
+                        result.IDAddress = reader.GetInt32("idAddress");
+                    }
+                }
+                return result;
+            }
+        }
+
+        internal IEnumerable<POPEmail> GetAllPOPEmails()
         {
             ObservableCollection<POPEmail> result = new ObservableCollection<POPEmail>();
             var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null) 
-            return result;
-            string sql = "SELECT * FROM Email";
-            using (var mc = new MySqlCommand(sql,connect))
-            using (var reader = mc.ExecuteReader()) 
+            if (connect == null)
+                return result;
+            string sql = "SELECT Email.ID, ID_AdressFrom, Subject,Body, DateSend, AdressBook.Email, AdressBook.Title FROM Email, AdressBook where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
+            using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
             {
-                //POPEmail pOPEmail = new POPEmail();
-                //int id;
                 while (reader.Read())
                 {
-                    var pOPEmail = new POPEmail
-                    {
-                        pOPEmail = new POPEmail();
-                    pOPEmail.ID = id;
+                    var pOPEmail = new POPEmail();
+                    pOPEmail.ID = reader.GetInt32("id");
                     pOPEmail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
-                    pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
+                    //pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
                     pOPEmail.Subject = reader.GetString("Subject");
                     pOPEmail.Body = reader.GetString("Body");
-                    pOPEmail.DateSent = reader.GetDateTime("DateSent"); }
-                
+                    pOPEmail.DateSent = reader.GetDateTime("DateSend");
+                    pOPEmail.EmailFrom = reader.GetString("Email");
+                    pOPEmail.TitleFrom = reader.GetString("Title");
+                    result.Add(pOPEmail);   
                 }
-                    //id = reader.GetInt32("id");
-                    //if (pOPEmail.ID != id)
-                   
-                     
-                    //AdressBook adressBook = new AdressBook
-                    //{
-                    //    ID = reader.GetInt32("adressbookId"),
-                    //    Email = reader.GetString("adressbookEmail"),
-                    //    Title = reader.GetString("Title"),
-                    //};
-                    //pOPEmail.AdressBooks.Add(adressBook);
-                }             
             }
             return result;
         }
@@ -77,21 +90,15 @@ namespace post
                 mc.Parameters.Add(new MySqlParameter("subject", pOPEmail.Subject));
                 mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
                 mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSent));
-                //if (mc.ExecuteNonQuery() > 0)
-                //{
-                //    sql = "";
-                //    foreach (var adressbook in pOPEmail.AdressBooks)
-                //        sql "
-                //}
             }
         }
 
-        internal void Remove(POPEmail pOPEmail) 
+        internal void Remove(POPEmail pOPEmail)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return;
             string sql = "DELETE FROM Email WHERE id = ' " + pOPEmail.ID + "';";
-            using (var mc = new MySqlCommand(sql,connect))
+            using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
         }
         //internal IEnumerable<POPEmail> Search(string searchText, AdressBook selectedAdressBook)
@@ -101,5 +108,5 @@ namespace post
 
     }
 
-   
+
 }

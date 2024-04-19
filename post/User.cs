@@ -13,6 +13,8 @@ namespace post
         public string Login { get; set; }
         public string Password { get; set; }
         public byte[] Image { get; set; }
-        
+        public string Email { get; internal set; }
+        public string EmailTitle { get; internal set; }
+        public int IDAddress { get; internal set; }
    }
 }
