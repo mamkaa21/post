@@ -29,7 +29,7 @@ namespace post
 
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
-            var user = PostRepository.Instance.GetUserByLoginPassword(Login, passwordBox.Password);
+            var user = UserRepository.Instance.GetUserByLoginPassword(Login, passwordBox.Password);
             if (user.ID != 0)
             {
                 ActiveUser.Instance.SetUser(user);

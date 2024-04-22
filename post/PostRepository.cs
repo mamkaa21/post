@@ -25,32 +25,32 @@ namespace post
             }
         }
 
-        internal User GetUserByLoginPassword(string login, string password)
-        {
-            User result = new User();
-            var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null)
-                return result;
-            string sql = "SELECT u.ID, u.NickName, u.Login, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login= @login AND u.Password = @password AND ab.ID_User = u.ID";
-            using (var mc = new MySqlCommand(sql, connect))
-            {
-                mc.Parameters.Add(new MySqlParameter("login", login));
-                mc.Parameters.Add(new MySqlParameter("password", password));
-                using (var reader = mc.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        result.ID = reader.GetInt32("id");
-                        result.NickName = reader.GetString("NickName");
-                        result.Email = reader.GetString("Email");
-                        result.EmailTitle = reader.GetString("Title");
-                        result.Login = reader.GetString("Login");
-                        result.IDAddress = reader.GetInt32("idAddress");
-                    }
-                }
-                return result;
-            }
-        }
+        //internal User GetUserByLoginPassword(string login, string password)
+        //{
+        //    User result = new User();
+        //    var connect = MySqlDB.Instance.GetConnection();
+        //    if (connect == null)
+        //        return result;
+        //    string sql = "SELECT u.ID, u.NickName, u.Login, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login= @login AND u.Password = @password AND ab.ID_User = u.ID";
+        //    using (var mc = new MySqlCommand(sql, connect))
+        //    {
+        //        mc.Parameters.Add(new MySqlParameter("login", login));
+        //        mc.Parameters.Add(new MySqlParameter("password", password));
+        //        using (var reader = mc.ExecuteReader())
+        //        {
+        //            if (reader.Read())
+        //            {
+        //                result.ID = reader.GetInt32("id");
+        //                result.NickName = reader.GetString("NickName");
+        //                result.Email = reader.GetString("Email");
+        //                result.EmailTitle = reader.GetString("Title");
+        //                result.Login = reader.GetString("Login");
+        //                result.IDAddress = reader.GetInt32("idAddress");
+        //            }
+        //        }
+        //        return result;
+        //    }
+        //}
 
         internal IEnumerable<POPEmail> GetAllPOPEmails()
         {
@@ -93,7 +93,7 @@ namespace post
             }
         }
 
-        internal void Remove(POPEmail pOPEmail)
+        internal void RemovePOPEmail(POPEmail pOPEmail)
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return;
@@ -101,10 +101,34 @@ namespace post
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
         }
-        //internal IEnumerable<POPEmail> Search(string searchText, AdressBook selectedAdressBook)
-        //{
-        //    string sql = 
-        //}
+
+        internal IEnumerable<POPEmail> Search(string searchText, AdressBook selectedAdressBook)
+        {
+            string sql = "select  e.ID_AdressFrom, e.Subject, e.Body, e.DateSend, ab.Email, ab.Title from Email e, AdressBook ab";
+            if (selectedAdressBook.ID != 0)
+            {
+                var result = GetAllPOPEmails().Where(s => s.AdressBooks.FirstOrDefault(s => s.ID == selectedAdressBook.ID) != null);
+                return result;
+            }
+            return GetAllPOPEmails();
+        }
+
+        internal void UpdatePOPEmail(POPEmail pOPEmail)
+        {
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null) return;
+            string sql = "delete from Email";
+            using (var mc = new MySqlCommand(sql,connect))
+                mc.ExecuteNonQuery();
+            sql = "update Email set ID_AdressFrom = @id_AdressFrom, ID_AdressTo = @id_AdressTo, Subject = @subject, Body =  @body, DateSent =  @datesent where ID = " + pOPEmail.ID;
+            using (var mc = new MySqlCommand(sql, connect))
+            {
+                mc.Parameters.Add(new MySqlParameter("subject", pOPEmail.Subject));
+                mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
+                mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSent));
+                mc.ExecuteNonQuery();
+            }
+        }
 
     }
 

@@ -185,6 +185,7 @@ namespace post
             try
             {
                 pop3Client = ConnectMail();
+                //POPEmail = PostRepository.Instance.RemovePOPEmail();
                 //pop3Client.DeleteMessage(POPEmail.MessageNumber);
                 //pop3Client.Disconnect();
                 //var index = POPEmail.MessageNumber;
