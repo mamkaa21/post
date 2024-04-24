@@ -34,6 +34,8 @@ namespace post
         {
             InitializeComponent();
             var user = ActiveUser.Instance.GetUser();
+            //var newuser = NewActiveUser.Instance.GetUser();
+            //newuser = user;
             GetAllPOPEmail();
             DataContext = this;
             timerStart();

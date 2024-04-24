@@ -20,9 +20,7 @@ namespace post
                 return instance;
             }
         }
-
         private User user;
-
         public User GetUser()
         {
             return user;
@@ -33,4 +31,31 @@ namespace post
             user = value;
         }
     }
+
+    //internal class NewActiveUser 
+    //{
+    //  private NewActiveUser() { }
+    //  static NewActiveUser instance;
+    //public static NewActiveUser Instance
+    //    {
+    //        get
+    //        {
+    //            if (instance == null)
+    //                instance = new NewActiveUser();
+    //            return instance;
+    //        }
+    //    }
+    //    private User user;
+    //    public User GetUser()
+    //    {
+    //        return user;
+    //    }
+
+    //    public void SetUser(User value)
+    //    {
+    //        user = value;
+    //    }
+
+    //}
+
 }

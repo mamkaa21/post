@@ -68,11 +68,11 @@ namespace post
             }
         }
 
-        public int GetAutoID(string T)
+        public int GetAutoID(string table)
         {
             try
             {
-                string sql = "SHOW POST STATUS WHERE 'Name' = " + T + "'";
+                string sql = "SHOW Table STATUS WHERE Name = '" + table + "'";
                 using (var mc = new MySqlCommand(sql, mySqlConnection))
                 using (var reader = mc.ExecuteReader())
                 {

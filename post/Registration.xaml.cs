@@ -20,6 +20,7 @@ namespace post
     public partial class Registration : Window
     {
         public string Login { get; set; }
+        public string NickName { get; set; }
         public Registration()
         {
             InitializeComponent();
@@ -28,9 +29,11 @@ namespace post
 
         private void Button_Click3(object sender, RoutedEventArgs e)
         {
-          MainMenu mainMenu = new MainMenu();
-            mainMenu.Show();
-            this.Close();
+            var user = UserRepository.Instance.AddUserByLoginPassword(NickName, Login, passwbox.Password);
+            ActiveUser.Instance.SetUser(user);
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.Show();
+                this.Close();            
         }
     }
 }

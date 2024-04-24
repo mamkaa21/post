@@ -1,14 +1,15 @@
 ﻿using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace post
 {
-   public class UserRepository
-   {
+    public class UserRepository
+    {
         private UserRepository() { }
 
         static UserRepository instance;
@@ -28,7 +29,7 @@ namespace post
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT u.ID, u.NickName, u.Login, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login= @login AND u.Password = @password AND ab.ID_User = u.ID";
+            string sql = "SELECT u.ID, u.NickName, u.Login, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login = @login AND u.Password = @password AND ab.ID_User = u.ID";
             using (var mc = new MySqlCommand(sql, connect))
             {
                 mc.Parameters.Add(new MySqlParameter("login", login));
@@ -49,7 +50,31 @@ namespace post
             }
         }
 
-
-
+        internal User AddUserByLoginPassword(string nickname,string login, string password)
+        {
+            User result = new User();
+            var connect = MySqlDB.Instance.GetConnection();
+            if (connect == null) 
+                return result;
+            int id = MySqlDB.Instance.GetAutoID("User");
+            string sql = "INSERT INTO User VALUES (0, @nickname, @login, @password, null)";
+            using (var mc = new MySqlCommand(sql, connect))
+            {
+                mc.Parameters.Add(new MySqlParameter("nickname", nickname));
+                mc.Parameters.Add(new MySqlParameter("login", login));
+                mc.Parameters.Add(new MySqlParameter("password", password));
+                mc.ExecuteNonQuery();
+                //if (mc.ExecuteNonQuery() > 0)
+                //{
+                //    sql = "";
+                //    foreach (var ab in .Tags)
+                //        sql += "INSERT INTO CrossDrinkTag VALUES (" + id + "," + tag.ID + ");";
+                //    using (var mcCross = new MySqlCommand(sql, connect))
+                //        mcCross.ExecuteNonQuery();
+                //}
+            }
+            result = new User { NickName = nickname, Login = login, Password = password };
+            return result;
+        }
     }
 }
