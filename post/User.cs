@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,9 @@ namespace post
         public string Email { get; internal set; }
         public string EmailTitle { get; internal set; }
         public int IDAddress { get; internal set; }
-   }
+
+        public ObservableCollection<AdressBook> AdressBooks { get; set; }
+        public string EmailFrom { get; internal set; }
+        public string TitleFrom { get; internal set; }
+    }
 }

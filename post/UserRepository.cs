@@ -63,18 +63,19 @@ namespace post
                 mc.Parameters.Add(new MySqlParameter("nickname", nickname));
                 mc.Parameters.Add(new MySqlParameter("login", login));
                 mc.Parameters.Add(new MySqlParameter("password", password));
-                mc.ExecuteNonQuery();
-                //if (mc.ExecuteNonQuery() > 0)
-                //{
-                //    sql = "";
-                //    foreach (var ab in .Tags)
-                //        sql += "INSERT INTO CrossDrinkTag VALUES (" + id + "," + tag.ID + ");";
-                //    using (var mcCross = new MySqlCommand(sql, connect))
-                //        mcCross.ExecuteNonQuery();
-                //}
+                mc.ExecuteNonQuery(); result = new User { NickName = nickname, Login = login, Password = password };
+                if (mc.ExecuteNonQuery() > 0)
+                {
+                    sql = "";
+                    foreach (var ab in result.AdressBooks)
+                        sql += "INSERT INTO AdressBook VALUES (" + id + "," + ab.ID + ");";
+                    using (var mcCross = new MySqlCommand(sql, connect))
+                        mcCross.ExecuteNonQuery();
+                }
             }
-            result = new User { NickName = nickname, Login = login, Password = password };
-            return result;
+           
+            return result; 
+           
         }
     }
 }

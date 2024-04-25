@@ -37,9 +37,15 @@ namespace post
             //var newuser = NewActiveUser.Instance.GetUser();
             //newuser = user;
             GetAllPOPEmail();
+            AddPOPEmail();
             DataContext = this;
             timerStart();
         }
+        //private void AddPOPEmail()
+        //{
+        //    var email = PostRepository.Instance.AddPOPEmail(pOPEmail);
+        //}
+
 
         private void GetAllPOPEmail()
         {
@@ -167,7 +173,7 @@ namespace post
         public ObservableCollection<POPEmail> Email { get; set; } = new();
 
         private POPEmail email;
-        public POPEmail POPEmail
+        public POPEmail pOPEmail
         {
             get => email;
             set
@@ -179,7 +185,7 @@ namespace post
 
         private void Button_Delete(object sender, RoutedEventArgs e)
         {
-            if (POPEmail == null)
+            if (pOPEmail == null)
             {
                 MessageBox.Show("Не выбран обьект");
                 return;
@@ -187,15 +193,12 @@ namespace post
             try
             {
                 pop3Client = ConnectMail();
-                //POPEmail = PostRepository.Instance.RemovePOPEmail();
+                pOPEmail = PostRepository.Instance.RemovePOPEmail(POPEmail);
                 //pop3Client.DeleteMessage(POPEmail.MessageNumber);
                 //pop3Client.Disconnect();
                 //var index = POPEmail.MessageNumber;
-                Email.Remove(POPEmail);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));
-                DeleteMenu deleteMenu = new DeleteMenu();
-                deleteMenu.Show();
-                this.Close();
+                Email.Remove(pOPEmail);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));              
                 //var sort = Email.ToArray();
                 //Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
                 //for (int i = 0; i < sort.Length; i++)
