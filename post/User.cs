@@ -18,8 +18,9 @@ namespace post
         public string EmailTitle { get; internal set; }
         public int IDAddress { get; internal set; }
 
-        public ObservableCollection<AdressBook> AdressBooks { get; set; }
+        public ObservableCollection<AdressBook> AdressBooks { get; set; } = new();
         public string EmailFrom { get; internal set; }
         public string TitleFrom { get; internal set; }
+
     }
 }

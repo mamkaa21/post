@@ -11,5 +11,6 @@ namespace post
         public int ID {  get; set; }
         public string Email { get; set; }
         public string Title { get; set; }
+        public int ID_User { get; set; }
     }
 }

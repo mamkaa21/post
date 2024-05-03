@@ -37,15 +37,13 @@ namespace post
             //var newuser = NewActiveUser.Instance.GetUser();
             //newuser = user;
             GetAllPOPEmail();
-            AddPOPEmail();
             DataContext = this;
             timerStart();
         }
-        //private void AddPOPEmail()
-        //{
-        //    var email = PostRepository.Instance.AddPOPEmail(pOPEmail);
-        //}
 
+        private void AddPOPEmail()
+        {
+        }
 
         private void GetAllPOPEmail()
         {
@@ -82,7 +80,7 @@ namespace post
              try
              {
                 count = pop3Client.GetMessageCount();
-             }
+             }          
             catch { return; }
 
             var lastCountFor = lastCount;
@@ -107,7 +105,9 @@ namespace post
                     Subject = message.Headers.Subject,
                     DateSent = message.Headers.DateSent,
                     From = message.Headers.From.Address,
-                };
+                    ID_AdressTo = ActiveUser.Instance.GetUser().IDAddress
+                };               
+                PostRepository.Instance.AddPOPEmail(email);
 
                 MessagePart body = message.FindFirstHtmlVersion();
                 if (body != null)
@@ -162,10 +162,9 @@ namespace post
             Pop3Client pop3Client = new Pop3Client();
 
             var username = "alina1125@suz-ppk.ru";
-            var password = "D35de%TJ";
-
+            var password = "D35de%TJ";      
             pop3Client.Connect("pop3.beget.com", 110, false);
-            pop3Client.Authenticate(username, password, AuthenticationMethod.UsernameAndPassword);
+            pop3Client.Authenticate(username, password, AuthenticationMethod.UsernameAndPassword);     
             return pop3Client;
         }
 
@@ -193,7 +192,7 @@ namespace post
             try
             {
                 pop3Client = ConnectMail();
-                pOPEmail = PostRepository.Instance.RemovePOPEmail(POPEmail);
+                //pOPEmail = PostRepository.Instance.RemovePOPEmail(POPEmail);
                 //pop3Client.DeleteMessage(POPEmail.MessageNumber);
                 //pop3Client.Disconnect();
                 //var index = POPEmail.MessageNumber;

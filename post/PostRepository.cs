@@ -25,33 +25,6 @@ namespace post
             }
         }
 
-        //internal User GetUserByLoginPassword(string login, string password)
-        //{
-        //    User result = new User();
-        //    var connect = MySqlDB.Instance.GetConnection();
-        //    if (connect == null)
-        //        return result;
-        //    string sql = "SELECT u.ID, u.NickName, u.Login, ab.Email, ab.Title, ab.ID AS idAddress FROM User u, AdressBook ab WHERE u.Login= @login AND u.Password = @password AND ab.ID_User = u.ID";
-        //    using (var mc = new MySqlCommand(sql, connect))
-        //    {
-        //        mc.Parameters.Add(new MySqlParameter("login", login));
-        //        mc.Parameters.Add(new MySqlParameter("password", password));
-        //        using (var reader = mc.ExecuteReader())
-        //        {
-        //            if (reader.Read())
-        //            {
-        //                result.ID = reader.GetInt32("id");
-        //                result.NickName = reader.GetString("NickName");
-        //                result.Email = reader.GetString("Email");
-        //                result.EmailTitle = reader.GetString("Title");
-        //                result.Login = reader.GetString("Login");
-        //                result.IDAddress = reader.GetInt32("idAddress");
-        //            }
-        //        }
-        //        return result;
-        //    }
-        //}
-
         internal IEnumerable<POPEmail> GetAllPOPEmails()
         {
             ObservableCollection<POPEmail> result = new ObservableCollection<POPEmail>();
@@ -79,18 +52,39 @@ namespace post
             return result;
         }
 
-        internal void AddPOPEmail(POPEmail pOPEmail)
+        internal POPEmail AddPOPEmail(POPEmail pOPEmail)
         {
             var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null) return;
+            if (connect == null) return pOPEmail;
+            string sql = "select id from AdressBook where Email = " + pOPEmail.From;
+            using (var mc = new MySqlCommand(sql, connect))
+            using (var reader = mc.ExecuteReader())
+            {
+                if (reader.Read())
+                pOPEmail.ID_AdressFrom = reader.GetInt32(0);
+            }
+            if (pOPEmail.ID_AdressFrom == 0)
+            {
+                pOPEmail.ID_AdressFrom =  MySqlDB.Instance.GetAutoID("AdressBook");
+                sql = "INSERT INTO AdressBook VALUES (0, @AdressFrom, '', null)";
+                using (var mc = new MySqlCommand(sql, connect))
+                {
+                    mc.Parameters.Add(new MySqlParameter("AdressFrom", pOPEmail.From));
+                    mc.ExecuteNonQuery();
+                }
+            }
             int id = MySqlDB.Instance.GetAutoID("Email");
-            string sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subject, @body, @datesent)";
+            sql = "INSERT INTO Email VALUES (0, @id_AdressFrom, @id_AdressTo, @subject, @body, @datesent)";
             using (var mc = new MySqlCommand(sql, connect))
             {
+                mc.Parameters.Add(new MySqlParameter("id_AdressFrom", pOPEmail.ID_AdressFrom));
+                mc.Parameters.Add(new MySqlParameter("id_AdressTo", pOPEmail.ID_AdressTo));
                 mc.Parameters.Add(new MySqlParameter("subject", pOPEmail.Subject));
                 mc.Parameters.Add(new MySqlParameter("body", pOPEmail.Body));
                 mc.Parameters.Add(new MySqlParameter("datesent", pOPEmail.DateSent));
+                mc.ExecuteNonQuery();
             }
+            return pOPEmail;
         }
 
         internal void RemovePOPEmail(POPEmail pOPEmail)

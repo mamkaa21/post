@@ -66,9 +66,7 @@ namespace post
                 email = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(POPEmail)));
             }
-        }
-
-       
+        }      
 
         private void But_DelPost(object sender, EventArgs e)
         {
@@ -91,6 +89,9 @@ namespace post
             }
             catch { }
         }
+
+        private void BUT_RETURN(object sender, EventArgs e)
+        { }
     }
 }
 

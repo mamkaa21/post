@@ -7,6 +7,41 @@
         mc:Ignorable="d"
         Title="WindowSendPost" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.ColumnSpan="9" Background="CornflowerBlue" Content="CATSS" HorizontalContentAlignment="Center"
+        FontSize="35" Foreground="Beige"/>
+        <Label Grid.Column="4"  Background="CornflowerBlue" Content="🐾" HorizontalContentAlignment="Center"
+        FontSize="30" Foreground="Beige"/>
+        <Label Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1" Content="Отправленные  ✉" FontSize="30" Foreground ="SteelBlue" HorizontalAlignment="Left"/>
+        <ListView x:Name="test" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="2" Grid.RowSpan="6" ItemsSource="{Binding Email}" SelectedItem="{Binding POPEmail}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding From}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Subject}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Body}"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding DateSent}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Grid.Row="1" Content="←" Margin="30 2 30 2" Foreground="SteelBlue" Background="White" FontSize="30" Click="But_Back"/>
     </Grid>
 </Window>

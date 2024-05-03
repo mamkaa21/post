@@ -19,6 +19,7 @@ namespace post
             stringBuilder.Server = "192.168.200.13";
             stringBuilder.CharacterSet = "utf8mb4";
             mySqlConnection = new MySqlConnection(stringBuilder.ToString());
+            //Allow UserVariables = true;
             OpenConnection();
         }
 

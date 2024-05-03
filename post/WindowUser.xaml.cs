@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +31,32 @@ namespace post
             MainMenu mainMenu = new MainMenu();
             mainMenu.Show();
             Close();
+        }
+        private void ButOk(object sender, EventArgs e)
+        { MainMenu mainMenu = new MainMenu(); mainMenu.Show();
+          Close();
+        }
+        string selectedImagePathUser = "";
+        private void ButImage(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                selectedImagePathUser = openFileDialog.FileName;
+                if (selectedImagePathUser.EndsWith(".png") || selectedImagePathUser.EndsWith(".jpg"))
+                {
+                    byte[] imageData = File.ReadAllBytes(selectedImagePathUser);
+
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = new MemoryStream(imageData);
+                    bitmapImage.EndInit();
+
+                    SelectedImageUser.Source = bitmapImage;
+                }
+            }
         }
     }
 }
