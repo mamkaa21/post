@@ -192,18 +192,19 @@ namespace post
             try
             {
                 pop3Client = ConnectMail();
-                //pOPEmail = PostRepository.Instance.RemovePOPEmail(POPEmail);
-                //pop3Client.DeleteMessage(POPEmail.MessageNumber);
-                //pop3Client.Disconnect();
-                //var index = POPEmail.MessageNumber;
-                Email.Remove(pOPEmail);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));              
-                //var sort = Email.ToArray();
-                //Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
-                //for (int i = 0; i < sort.Length; i++)
-                //    sort[i].MessageNumber = i + 1;
+                PostRepository.Instance.RemovePOPEmail(email);
+                pop3Client.DeleteMessage(pOPEmail.MessageNumber);
+                pop3Client.Disconnect();
+                var index = pOPEmail.MessageNumber;
+                Email.Remove(email);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Email)));
+                var sort = Email.ToArray();
+                Array.Sort(sort, (x, y) => y.DateSent.CompareTo(x.DateSent));
+                for (int i = 0; i < sort.Length; i++)
+                    sort[i].MessageNumber = i + 1;
             }
             catch { }
+            PostRepository.Instance.UpdatePOPEmail(email);
         }
 
         private void OnClose(object sender, CancelEventArgs e)

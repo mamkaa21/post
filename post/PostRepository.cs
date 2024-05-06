@@ -31,7 +31,7 @@ namespace post
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null)
                 return result;
-            string sql = "SELECT Email.ID, ID_AdressFrom, Subject,Body, DateSend, AdressBook.Email, AdressBook.Title FROM Email, AdressBook where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
+            string sql = "SELECT Email.ID, ID_AdressFrom, Subject, DateSend, AdressBook.Email, AdressBook.Title FROM Email, AdressBook where ID_AdressTo = " + ActiveUser.Instance.GetUser().IDAddress + " AND ID_AdressFrom = AdressBook.ID";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -42,7 +42,7 @@ namespace post
                     pOPEmail.ID_AdressFrom = reader.GetInt32("ID_AdressFrom");
                     //pOPEmail.ID_AdressTo = reader.GetInt32("ID_AdressTo");
                     pOPEmail.Subject = reader.GetString("Subject");
-                    pOPEmail.Body = reader.GetString("Body");
+                    //pOPEmail.Body = reader.GetString("Body");
                     pOPEmail.DateSent = reader.GetDateTime("DateSend");
                     pOPEmail.EmailFrom = reader.GetString("Email");
                     pOPEmail.TitleFrom = reader.GetString("Title");
@@ -56,7 +56,7 @@ namespace post
         {
             var connect = MySqlDB.Instance.GetConnection();
             if (connect == null) return pOPEmail;
-            string sql = "select id from AdressBook where Email = " + pOPEmail.From;
+            string sql = "select id from AdressBook where Email = '" + pOPEmail.From +"'";
             using (var mc = new MySqlCommand(sql, connect))
             using (var reader = mc.ExecuteReader())
             {
@@ -65,7 +65,7 @@ namespace post
             }
             if (pOPEmail.ID_AdressFrom == 0)
             {
-                pOPEmail.ID_AdressFrom =  MySqlDB.Instance.GetAutoID("AdressBook");
+                pOPEmail.ID_AdressFrom = MySqlDB.Instance.GetAutoID("AdressBook");
                 sql = "INSERT INTO AdressBook VALUES (0, @AdressFrom, '', null)";
                 using (var mc = new MySqlCommand(sql, connect))
                 {
@@ -87,13 +87,14 @@ namespace post
             return pOPEmail;
         }
 
-        internal void RemovePOPEmail(POPEmail pOPEmail)
+        internal POPEmail RemovePOPEmail(POPEmail pOPEmail)
         {
             var connect = MySqlDB.Instance.GetConnection();
-            if (connect == null) return;
+            if (connect == null) return pOPEmail;
             string sql = "DELETE FROM Email WHERE id = ' " + pOPEmail.ID + "';";
             using (var mc = new MySqlCommand(sql, connect))
                 mc.ExecuteNonQuery();
+            return pOPEmail;
         }
 
         internal IEnumerable<POPEmail> Search(string searchText, AdressBook selectedAdressBook)

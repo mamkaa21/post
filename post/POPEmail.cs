@@ -31,7 +31,7 @@ namespace post
         public string Body { get; set; }
 
         public DateTime DateSent { get; set; }
-
+     
         public List<Attachments> Attachments { get; set; }
 
         public ObservableCollection<AdressBook> AdressBooks { get; set; }
